@@ -63,30 +63,27 @@ public interface BagInterface<T>
 
     /**
      * The union of two bags, combines all elements together into one new bag.
-     * @param bag1 The first bag to be combined.
-     * @param bag2 The second bag to be combined.
+     * @param bag1 The bag to combined with.
      * @return The new bag containing all items of bag1 and bag2.
      * Note: May contain duplicates.
      */
-    public T[] union(T[] bag1, T[] bag2);
+    public BagInterface<T> union(BagInterface<T> bag1);
 
     /**
      * Takes the entries in bag1 and bag2 and makes a new bag containing only those entries 
      * present in both bags.
-     * @param bag1 The first bag.
-     * @param bag2 The second bag.
+     * @param bag1 The bag to be intersected with.
      * @return The new bag after interesection. 
      * Note: May contain duplicates. 
      */
-    public T[] intersection(T[] bag1, T[]bag2);
+    public BagInterface<T> intersection(BagInterface<T> bag1);
 
     /**
      * Compares the entries in bag1 to bag2 and creates a new bag that only contains the unique
      * entries of bag1.
-     * @param bag1 The first bag.
-     * @param bag2 The second bag.
+     * @param bag1 The bag to take the difference of.
      * @return The new bag after removing the difference.
      * Note: May contain duplicates.
      */
-    public T[] difference(T[] bag1, T[] bag2);
+    public BagInterface<T> difference(BagInterface<T> bag1);
 }
