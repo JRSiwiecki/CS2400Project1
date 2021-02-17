@@ -1,89 +1,243 @@
 package cs2400project1;
 
-public class ResizeableArrayBag implements BagInterface
-{
+import java.util.Arrays;
 
+/**
+ * A resizeable bag implemented using arrays.
+ */
+
+public class ResizeableArrayBag<T> implements BagInterface<T>
+{
+    private T[] bag;
+    private int numberOfEntries;
+    private static final int DEFAULT_CAPACITY = 25;
+    private boolean integrityOK = false;
+    private static final int MAX_CAPACITY = 10000;
+    
+    public ResizeableArrayBag()
+    {
+        @SuppressWarnings("unchecked")
+        T[] tempBag = (T[]) new Object[DEFAULT_CAPACITY];
+        bag = tempBag;
+    	numberOfEntries = 0;
+        integrityOK = true;
+    }
+
+    /**
+     * Creates an empty bag having a given capacity.
+     * @param desiredCapacity The integer capacity desired.
+     */
+    public ResizeableArrayBag(int desiredCapacity)
+    {
+        if (desiredCapacity <= MAX_CAPACITY)
+        {
+            @SuppressWarnings("unchecked")
+            T[] tempBag = (T[]) new Object[desiredCapacity];
+            bag = tempBag;
+            numberOfEntries = 0;
+            integrityOK = true;
+        }
+
+        else
+        {
+            throw new IllegalStateException("Attempt to create a bag whose"
+            + "capacity exceeds allowed maximum.");
+        }
+    }
+
+    /**
+     * Throws an exception if this object is not initialized. 
+     */
+    private void checkIntegrity()
+    {
+        if (!integrityOK)
+        {
+            throw new SecurityException("ResizeableArrayBag object is corrupt.");
+        }
+    }
+    
     @Override
     public int getCurrentSize() 
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return numberOfEntries;
     }
 
+    public boolean isFull()
+    {
+        return numberOfEntries == bag.length;
+    }
+    
     @Override
     public boolean isEmpty() 
     {
-        // TODO Auto-generated method stub
-        return false;
+        return numberOfEntries == 0;
     }
 
     @Override
-    public boolean add(Object newEntry) 
+    public boolean add(T newEntry) 
     {
-        // TODO Auto-generated method stub
-        return false;
+        checkIntegrity();
+        boolean result = true;
+        if (isFull())
+        {
+            doubleCapacity();
+        }
+
+        bag[numberOfEntries] = newEntry;
+        numberOfEntries++;
+        
+        return result;
+    }
+
+    /**
+     * Removes and returns the entry at a given index within the array bag.
+     * If no such entry exists, return null.
+     * @param givenIndex The index of the entry to be removed.
+     * @return The removed entry.
+     */
+    private T removeEntry(int givenIndex)
+    {
+        T result = null;
+
+        if (!isEmpty() && (givenIndex >= 0))
+        {
+            result = bag[givenIndex]; // Entry to remove.
+            bag[givenIndex] = bag[numberOfEntries - 1]; // Replaces entry with last entry.
+            bag[numberOfEntries - 1] = null; // Remove last entry.
+            numberOfEntries--;  
+        }
+
+        return result;
+        
+    }
+    
+    @Override
+    public T remove() 
+    {
+        checkIntegrity();
+        return removeEntry(numberOfEntries - 1);
     }
 
     @Override
-    public Object remove() 
+    public boolean remove(T anEntry) 
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean remove(Object anEntry) 
-    {
-        // TODO Auto-generated method stub
-        return false;
+        checkIntegrity();
+        int index = getIndexOf(anEntry);
+        T result = removeEntry(index);
+        return anEntry.equals(result);
     }
 
     @Override
     public void clear() 
     {
-        // TODO Auto-generated method stub
-
+        while (!isEmpty())
+        {
+            remove();
+        }
     }
 
     @Override
-    public int getFrequencyOf(Object anEntry) 
+    public int getFrequencyOf(T anEntry) 
     {
-        // TODO Auto-generated method stub
-        return 0;
+        checkIntegrity();
+        int counter = 0;
+
+        for (int index = 0; index < numberOfEntries; index++)
+        {
+            if (anEntry.equals(bag[index]))
+            {
+                counter++;
+            }
+        }
+
+        return counter;
     }
 
-    @Override
-    public boolean contains(Object anEntry) 
+    /**
+     * Locates a given entry within the array bag.
+     * @param anEntry THe entry to be found.
+     * @return The index of the entry, or -1 if entry is not present in the bag.
+     */
+    private int getIndexOf(T anEntry)
     {
-        // TODO Auto-generated method stub
-        return false;
+        int where = -1;
+        boolean found = false;
+        int index = 0;
+
+        while(!found && (index < numberOfEntries))
+        {
+            
+            if (anEntry.equals(bag[index]))
+            {
+                found = true;
+                where = index;
+            }
+            
+            index++;
+
+        }
+       
+        return where;
+
+    }
+    
+    @Override
+    public boolean contains(T anEntry) 
+    {
+        checkIntegrity();
+        return getIndexOf(anEntry) > -1;
     }
 
     @Override
-    public Object[] toArray() {
+    public T[] toArray() 
+    {
+        @SuppressWarnings("unchecked")
+        T[] result = (T[]) new Object[numberOfEntries];
+        
+        for (int index = 0; index < numberOfEntries; index++)
+        {
+            result[index] = bag[index];
+        }
+
+        return result;
+    }
+
+    @Override
+    public BagInterface<T> union(BagInterface<T> bag1) 
+    {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BagInterface union(BagInterface bag1) 
+    public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BagInterface intersection(BagInterface bag1) 
+    public BagInterface<T> difference(BagInterface<T> bag1) 
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public BagInterface difference(BagInterface bag1) 
+    private void checkCapacity(int capacity)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if (capacity > MAX_CAPACITY)
+        {
+            throw new IllegalStateException("Attempt to create a bag whose " +
+                                        "capacity exceeds allowed " +
+                                        "maximum of " + MAX_CAPACITY);
+        }
+    }
+    
+    private void doubleCapacity()
+    {
+        int newLength = 2 * bag.length;
+        checkCapacity(newLength);
+        bag = Arrays.copyOf(bag, newLength);
     }
     
 }
