@@ -1,89 +1,248 @@
 package cs2400project1;
 
-public class LinkedBag implements BagInterface
-{
+/**
+ * A class of bags whose entries are stored in a chain of linked nodes.
+ * The bag is never full.
+ */
 
+public class LinkedBag<T> implements BagInterface<T>
+{
+    private Node<T> firstNode;
+    private int numberOfEntries;
+    
+    public LinkedBag()
+    {
+        firstNode = null;
+        numberOfEntries = 0;
+    }
+    
     @Override
     public int getCurrentSize() 
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return numberOfEntries;
     }
 
     @Override
     public boolean isEmpty() 
     {
-        // TODO Auto-generated method stub
-        return false;
+        return numberOfEntries == 0;
     }
 
     @Override
-    public boolean add(Object newEntry) 
+    public boolean add(T newEntry) // OutOfMemoryError possible
     {
-        // TODO Auto-generated method stub
-        return false;
+        // Add to the beginning of the chain:
+        Node<T> newNode = new Node<T>(newEntry); 
+        newNode.next = firstNode; // Make new node reference rest of chain
+                                  // (firstNode is null if chain is empty)
+        
+        firstNode = newNode; // New node is at beginning of chain
+        numberOfEntries++;
+
+        return true;
     }
 
     @Override
-    public Object remove() 
+    public T remove() 
     {
-        // TODO Auto-generated method stub
-        return null;
+        T result = null;
+
+        if (firstNode != null)
+        {
+            result = (T) firstNode.getData();
+            firstNode = firstNode.getNextNode(); //Remove first node from chain
+            numberOfEntries--;
+        }
+
+        return result;
+        
     }
 
     @Override
-    public boolean remove(Object anEntry) 
+    public boolean remove(T anEntry) 
     {
-        // TODO Auto-generated method stub
-        return false;
+        boolean result = false;
+        Node<T> nodeN = getReferenceTo(anEntry);
+
+        if (nodeN != null)
+        {
+            // Replace located entry with entry in the first node.
+            nodeN.setData(firstNode.getData());
+            // Remove first node
+            firstNode = firstNode.getNextNode();
+
+            numberOfEntries--;
+
+            result = true;
+        }
+
+        return result;
+
     }
 
     @Override
     public void clear() 
     {
-        // TODO Auto-generated method stub
-
+        while (!isEmpty())
+        {
+            remove();
+        }
     }
 
     @Override
-    public int getFrequencyOf(Object anEntry) 
+    public int getFrequencyOf(T anEntry) 
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int frequency = 0;
+
+        int counter = 0;
+        Node<T> currentNode = firstNode;
+        while ((counter < numberOfEntries) && (currentNode != null))
+        {
+            if (anEntry.equals(currentNode.getData()))
+            {
+                frequency++;
+            }
+
+            counter++;
+            currentNode = currentNode.getNextNode();
+        }
+
+        return frequency;
+
     }
 
     @Override
-    public boolean contains(Object anEntry) 
+    public boolean contains(T anEntry) 
     {
-        // TODO Auto-generated method stub
-        return false;
+        boolean found = false;
+        Node<T> currentNode = firstNode;
+
+        while (!found && (currentNode != null))
+        {
+            if (anEntry.equals(currentNode.getData()))
+            {
+                found = true;
+            }
+
+            else
+            {
+                currentNode = currentNode.getNextNode();
+            }
+        }
+
+        return found;
+
     }
 
     @Override
-    public Object[] toArray() {
+    public T[] toArray() 
+    {
+        // The cast is safe because the new array contains null entries
+        @SuppressWarnings("unchecked")
+        T[] result = (T[]) new Object[numberOfEntries]; // Unchecked cast
+
+        int index = 0;
+        Node<T> currentNode = firstNode;
+        while ((index < numberOfEntries) && (currentNode != null))
+        {
+            result[index] = (T) currentNode.getData();
+            index++;
+            currentNode = currentNode.getNextNode();
+        }
+
+        return result;
+
+    }
+
+    @Override
+    public BagInterface<T> union(BagInterface<T> bag1) 
+    {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BagInterface union(BagInterface bag1) 
+    public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BagInterface intersection(BagInterface bag1) 
+    public BagInterface<T> difference(BagInterface<T> bag1) 
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BagInterface difference(BagInterface bag1) 
+    public String toString()
     {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return "";
     }
-    
+
+    /**
+     * Locates a given entry within this bag.
+     * @param anEntry The entry to be located.
+     * @return The reference to the node containing the entry or null.
+     */
+    private Node<T> getReferenceTo(T anEntry)
+    {
+        boolean found = false;
+        Node<T> currentNode = firstNode;
+
+        while (!found && (currentNode != null))
+        {
+            if (anEntry.equals(currentNode.getData()))
+            {
+                found = true;
+            }
+
+            else
+            {
+                currentNode = currentNode.getNextNode();
+            }
+        }
+
+        return currentNode;
+
+    }
+
+    private class Node<T>
+    {
+        private T data; // entry in bag
+        private Node<T> next; // link to next node
+
+        private Node(T dataPortion)
+        {
+            this(dataPortion, null);
+        }
+
+        private Node(T dataPortion, Node<T> nextNode)
+        {
+            data = dataPortion;
+            next = nextNode;
+        }
+
+        private T getData()
+        {
+            return data;
+        }
+
+        private void setData(T newData)
+        {
+            data = newData;
+        }
+
+        private Node<T> getNextNode()
+        {
+            return next;
+        }
+
+        private void setNextNode(Node<T> nextNode)
+        {
+            next = nextNode;
+        }
+    }
 }

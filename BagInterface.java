@@ -1,6 +1,5 @@
 package cs2400project1;
 
-/** An interface that describes the operations of a bag of objects. */
 public interface BagInterface<T>
 {
 	/** 
@@ -86,4 +85,11 @@ public interface BagInterface<T>
      * Note: May contain duplicates.
      */
     public BagInterface<T> difference(BagInterface<T> bag1);
+
+    /**
+     * Prints out the contents of a bag.
+     * @param bag1 The bag to be printed.
+     * @return The contents of the bag in String form.
+     */
+    public String toString();
 }
