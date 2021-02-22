@@ -1,7 +1,6 @@
 package cs2400project1;
 
 import java.util.Arrays;
-import java.util.*;
 
 /**
  * A resizeable bag implemented using arrays.
@@ -9,12 +8,22 @@ import java.util.*;
 
 public class ResizeableArrayBag<T> implements BagInterface<T>
 {
-    private T[] bag;
+    /**
+     * @InstanceField bag The array bag containing entries.
+     * @InstanceField numberOfEntries The number of entries in the bag.
+     * @InstanceField DEFAULT_CAPACITY The default capacity of the array bag.
+     * @InstanceField integrityOK The boolean representing the integrity of the bag.
+     * @InstanceField MAX_CAPACITY The max size of the array bag.
+     */
+	private T[] bag;
     private int numberOfEntries;
     private static final int DEFAULT_CAPACITY = 25;
     private boolean integrityOK = false;
     private static final int MAX_CAPACITY = 10000;
     
+    /**
+     * Creates an empty bag with the default capacity.
+     */
     public ResizeableArrayBag()
     {
         @SuppressWarnings("unchecked")
@@ -63,6 +72,10 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
         return numberOfEntries;
     }
 
+    /**
+     * Checks if the bag is full.
+     * @return True if the bag is full, false if not.
+     */
     public boolean isFull()
     {
         return numberOfEntries == bag.length;
