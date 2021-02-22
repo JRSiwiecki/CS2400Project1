@@ -206,10 +206,13 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> union(BagInterface<T> bag1) 
     {
-        // bag containing all elements of bag1 and bag2
+    	// Check if bag is corrupt.
+    	checkIntegrity();
+    	
+    	// Bag containing all elements of bag1 and bag2
     	BagInterface<T> unionBag = new ResizeableArrayBag<>();
     	
-    	// the referenced bag when the union method is called 
+    	// Referenced bag when the union method is called 
     	// in array form
     	T[] referenceBag = this.toArray();
         
@@ -220,10 +223,10 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
         	unionBag.add(entry);
         }
         
-        // the bag from the parameter in array form
+        // Bag from the parameter in array form
         T[] parameterBag = bag1.toArray();
         
-        // adds contents of the parameter bag
+        // Adds contents of the parameter bag
         // to the union bag
         for (T entry: parameterBag)
         {
@@ -236,19 +239,32 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
+    	// Check if bag is corrupt.
+    	checkIntegrity();
+    	
+    	// Bag to compare to when checking if an entry is in both bags.
     	BagInterface<T> tempBag = new ResizeableArrayBag<>();
     	
+    	// Final bag to be added and returned.
     	BagInterface<T> intersectionBag = new ResizeableArrayBag<>();
     	
+    	// Bag that the method was called on.
     	T[] referenceBag = this.toArray();
     	
+    	// Adding entries from the referenceBag
+    	// to the tempBag.
     	for (T entry: referenceBag)
     	{
     		tempBag.add(entry);
     	}
     	
+    	// The parameter bag to an array.
     	T[] parameterBag = bag1.toArray();
     	
+    	// Goes through each entry in the parameter bag 
+    	// and checks if it is in the temp bag from the reference
+    	// bag. If so, then that means it is in both bags
+    	// and will be added to the intersection bag.
     	for (T entry: parameterBag)
     	{
     		if (tempBag.contains(entry))
@@ -263,9 +279,35 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> difference(BagInterface<T> bag1) 
     {
-        
+    	// Check if bag is corrupt.
+    	checkIntegrity();
     	
-    	return this;
+    	// Bag that will contain the difference of bag1 from bag2.
+    	BagInterface<T> differenceBag = new ResizeableArrayBag<>();
+        
+        // The reference bag this method was called on to an array.
+    	T[] referenceBag = this.toArray();
+        
+        // Adds the entries of the reference bag to the difference bag.
+    	for (T entry: referenceBag)
+        {
+        	differenceBag.add(entry);
+        }
+        
+        // Bag from the parameter to an array.
+    	T[] parameterBag = bag1.toArray();
+        
+        // Removes an entry from difference bag 
+    	// if that entry occurs in the parameter bag.
+    	for (T entry: parameterBag)
+        {
+        	if (differenceBag.contains(entry))
+        	{
+        		differenceBag.remove(entry);
+        	}
+        }
+    	
+    	return differenceBag;
     }
 
     /**
