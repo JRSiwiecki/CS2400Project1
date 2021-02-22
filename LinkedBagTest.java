@@ -16,8 +16,8 @@ public class LinkedBagTest
         IntersectionTestOne();
         IntersectionTestTwo();
         
-        // DifferenceTestOne();
-        // DifferenceTestTwo();
+        DifferenceTestOne();
+        DifferenceTestTwo();
         
         System.out.println();
         System.out.println("LINKED BAG TESTS END");
