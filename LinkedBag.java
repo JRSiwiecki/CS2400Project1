@@ -7,9 +7,16 @@ package cs2400project1;
 
 public class LinkedBag<T> implements BagInterface<T>
 {
-    private Node<T> firstNode;
+    /**
+     * @InstanceField firstNode The first node of the linked bag.
+     * @InstanceField numberOfEntries The number of entries in the linked bag.
+     */
+	private Node<T> firstNode;
     private int numberOfEntries;
     
+    /**
+     * Creates an empty linked list bag.
+     */
     public LinkedBag()
     {
         firstNode = null;
@@ -157,8 +164,28 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> union(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
+        // The bag containing all elements of both bags.
+    	BagInterface<T> unionBag = new LinkedBag<>();
+        
+        // The first bag.
+    	T[] parameterBag = bag1.toArray();
+        
+        // Adds elements of the first bag to the union bag.
+    	for (T entry: parameterBag)
+        {
+        	unionBag.add(entry);
+        }
+        
+        // The second bag.
+    	T[] referenceBag = this.toArray();
+        
+        // Adds entries of the second bag to the union bag.
+    	for (T entry: referenceBag)
+        {
+        	unionBag.add(entry);
+        }
+        
+        return unionBag;
     }
 
     @Override
@@ -209,38 +236,73 @@ public class LinkedBag<T> implements BagInterface<T>
 
     }
 
-    private class Node<T>
+    /**
+     * Nodes representing entries in the linked bag.
+     * @param <T> The entry datatype.
+     */
+    @SuppressWarnings("hiding")
+	private class Node<T>
     {
-        private T data; // entry in bag
-        private Node<T> next; // link to next node
+        /**
+         * @InstanceField data The entry itself.
+         * @InstanceField next The entry next to the current node.
+         */
+    	private T data; 
+        private Node<T> next; 
 
+        /**
+         * Creates a node of data at the front of the list.
+         * @param dataPortion The entry.
+         */
         private Node(T dataPortion)
         {
             this(dataPortion, null);
         }
 
+        /**
+         * Creates a node at a given position
+         * @param dataPortion The entry.
+         * @param nextNode The given position.
+         */
         private Node(T dataPortion, Node<T> nextNode)
         {
             data = dataPortion;
             next = nextNode;
         }
 
+        /**
+         * Getter function to get the entry.
+         * @return The entry.
+         */
         private T getData()
         {
             return data;
         }
 
+        /**
+         * Setter function to set the entry.
+         * @param newData The entry.
+         */
         private void setData(T newData)
         {
             data = newData;
         }
 
+        /**
+         * Gets the next node.
+         * @return The node.
+         */
         private Node<T> getNextNode()
         {
             return next;
         }
 
-        private void setNextNode(Node<T> nextNode)
+        /**
+         * Sets the next node.
+         * @param nextNode The next node.
+         */
+        @SuppressWarnings("unused")
+		private void setNextNode(Node<T> nextNode)
         {
             next = nextNode;
         }

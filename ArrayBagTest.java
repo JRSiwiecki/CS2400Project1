@@ -6,14 +6,22 @@ public class ArrayBagTest
 {
     public static void main(String[] args)
     {
-        // UnionTestOne();
-        // UnionTestTwo();
+    	System.out.println("--------------------------------");
+    	System.out.println("RESIZEABLE ARRAY BAG TESTS START");
+        System.out.println();
+    	
+    	UnionTestOne();
+        UnionTestTwo();
         
-        // IntersectionTestOne();
-        // IntersectionTestTwo();
+        IntersectionTestOne();
+        IntersectionTestTwo();
         
-        // DifferenceTestOne();
+        DifferenceTestOne();
         DifferenceTestTwo();
+        
+        System.out.println();
+        System.out.println("RESIZEABLE ARRAY BAG TESTS END");
+        System.out.println("------------------------------");
     }
 
     public static void UnionTestOne()
@@ -23,8 +31,8 @@ public class ArrayBagTest
         
         System.out.println();
         
-        BagInterface<String> bag1 = new ResizeableArrayBag<String>();
-        BagInterface<String> bag2 = new ResizeableArrayBag<String>();
+        BagInterface<String> bag1 = new ResizeableArrayBag<>();
+        BagInterface<String> bag2 = new ResizeableArrayBag<>();
 
         bag1.add("a");
         bag1.add("b");
@@ -66,8 +74,8 @@ public class ArrayBagTest
          
         System.out.println();
          
-        BagInterface<String> bag1 = new ResizeableArrayBag<String>();
-        BagInterface<String> bag2 = new ResizeableArrayBag<String>();
+        BagInterface<String> bag1 = new ResizeableArrayBag<>();
+        BagInterface<String> bag2 = new ResizeableArrayBag<>();
 
         bag1.add("a");
         bag1.add("b");
