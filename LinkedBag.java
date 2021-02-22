@@ -191,8 +191,38 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
+    	// Bag to compare to when checking if an entry is in both bags.
+    	BagInterface<T> tempBag = new LinkedBag<>();
+    	
+    	// Final bag to be added and returned.
+    	BagInterface<T> intersectionBag = new LinkedBag<>();
+    	
+    	// Bag that the method was called on.
+    	T[] referenceBag = this.toArray();
+    	
+    	// Adding entries from the referenceBag
+    	// to the tempBag.
+    	for (T entry: referenceBag)
+    	{
+    		tempBag.add(entry);
+    	}
+    	
+    	// The parameter bag to an array.
+    	T[] parameterBag = bag1.toArray();
+    	
+    	// Goes through each entry in the parameter bag 
+    	// and checks if it is in the temp bag from the reference
+    	// bag. If so, then that means it is in both bags
+    	// and will be added to the intersection bag.
+    	for (T entry: parameterBag)
+    	{
+    		if (tempBag.contains(entry))
+    		{
+    			intersectionBag.add(entry);
+    		}
+    	}
+    	
+        return intersectionBag;
     }
 
     @Override
