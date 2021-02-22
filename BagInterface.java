@@ -85,11 +85,4 @@ public interface BagInterface<T>
      * Note: May contain duplicates.
      */
     public BagInterface<T> difference(BagInterface<T> bag1);
-
-    /**
-     * Prints out the contents of a bag.
-     * @param bag1 The bag to be printed.
-     * @return The contents of the bag in String form.
-     */
-    public String toString();
 }

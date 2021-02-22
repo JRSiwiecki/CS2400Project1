@@ -1,6 +1,7 @@
 package cs2400project1;
 
 import java.util.Arrays;
+import java.util.*;
 
 /**
  * A resizeable bag implemented using arrays.
@@ -205,24 +206,53 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> union(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
+        // bag containing all elements of bag1 and bag2
+    	BagInterface<T> unionBag = new ResizeableArrayBag<>();
+    	
+    	// the referenced bag when the union method is called 
+    	// in array form
+    	T[] referenceBag = this.toArray();
+        
+        // add contents of the reference bag
+    	// to the unionbag
+    	for (T entry: referenceBag)
+        {
+        	unionBag.add(entry);
+        }
+        
+        // the bag from the parameter in array form
+        T[] parameterBag = bag1.toArray();
+        
+        // adds contents of the parameter bag
+        // to the union bag
+        for (T entry: parameterBag)
+        {
+        	unionBag.add(entry);
+        }
+        
+        return unionBag; 
     }
 
     @Override
     public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
+    	
+    	
+        return this;
     }
 
     @Override
     public BagInterface<T> difference(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
+        
+    	
+    	return this;
     }
 
+    /**
+     * Checks capacity of the bag to make sure it is larger than the array should be.
+     * @param capacity The capacity to be checked.
+     */
     private void checkCapacity(int capacity)
     {
         if (capacity > MAX_CAPACITY)
@@ -233,11 +263,15 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
         }
     }
     
+    /**
+     * Doubles the capacity of the resizeable array bag.
+     * Checks to see if the new capacity will be larger than 
+     * the max capacity using checkCapacity.
+     */
     private void doubleCapacity()
     {
         int newLength = 2 * bag.length;
         checkCapacity(newLength);
         bag = Arrays.copyOf(bag, newLength);
     }
-    
 }
