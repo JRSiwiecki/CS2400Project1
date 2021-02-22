@@ -11,10 +11,10 @@ public class LinkedBagTest
         System.out.println();
     	
     	UnionTestOne();
-        // UnionTestTwo();
+        UnionTestTwo();
         
-        // IntersectionTestOne();
-        // IntersectionTestTwo();
+        IntersectionTestOne();
+        IntersectionTestTwo();
         
         // DifferenceTestOne();
         // DifferenceTestTwo();
@@ -135,6 +135,8 @@ public class LinkedBagTest
         System.out.println("Frequency of d: " + bag3.getFrequencyOf("d"));
         System.out.println("Frequency of e: " + bag3.getFrequencyOf("e"));
 
+        System.out.println();
+        
         System.out.println("Intersection Bag: " + Arrays.toString(bag3.toArray()));
         
         System.out.println();
@@ -169,7 +171,8 @@ public class LinkedBagTest
         System.out.println("Frequency of b: " + bag3.getFrequencyOf("b"));
         System.out.println("Frequency of c: " + bag3.getFrequencyOf("c"));
 
-
+        System.out.println();
+        
         System.out.println("Intersection Bag: " + Arrays.toString(bag3.toArray()));
         
         System.out.println();
