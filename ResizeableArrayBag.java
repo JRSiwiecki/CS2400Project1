@@ -236,9 +236,28 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
+    	BagInterface<T> tempBag = new ResizeableArrayBag<>();
     	
+    	BagInterface<T> intersectionBag = new ResizeableArrayBag<>();
     	
-        return this;
+    	T[] referenceBag = this.toArray();
+    	
+    	for (T entry: referenceBag)
+    	{
+    		tempBag.add(entry);
+    	}
+    	
+    	T[] parameterBag = bag1.toArray();
+    	
+    	for (T entry: parameterBag)
+    	{
+    		if (tempBag.contains(entry))
+    		{
+    			intersectionBag.add(entry);
+    		}
+    	}
+    	
+        return intersectionBag;
     }
 
     @Override

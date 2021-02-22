@@ -9,7 +9,7 @@ public class ArrayBagTest
         UnionTestOne();
         // UnionTestTwo();
         
-        // IntersectionTestOne();
+        IntersectionTestOne();
         // IntersectionTestTwo();
         
         // DifferenceTestOne();
@@ -83,19 +83,28 @@ public class ArrayBagTest
 
     public static void IntersectionTestOne()
     {
-        System.out.println("Intersection Test One");
-
+    	System.out.println("------------------------------");
+        System.out.println("START OF INTERSECTION TEST ONE");
+        
+        System.out.println();
+        
         BagInterface<String> bag1 = new ResizeableArrayBag<>();
         BagInterface<String> bag2 = new ResizeableArrayBag<>();
 
         bag1.add("a");
         bag1.add("b");
         bag1.add("c");
+        
+        System.out.println("Bag One: " + Arrays.toString(bag1.toArray()));
 
         bag2.add("b");
         bag2.add("b");
         bag2.add("d");
         bag2.add("e");
+        
+        System.out.println("Bag Two: " + Arrays.toString(bag2.toArray()));
+        
+        System.out.println();
 
         BagInterface<String> bag3 = bag1.intersection(bag2);
 
@@ -105,7 +114,12 @@ public class ArrayBagTest
         System.out.println("Frequency of d: " + bag3.getFrequencyOf("d"));
         System.out.println("Frequency of e: " + bag3.getFrequencyOf("e"));
 
-        System.out.println(Arrays.toString(bag3.toArray()));
+        System.out.println("Intersection Bag: " + Arrays.toString(bag3.toArray()));
+        
+        System.out.println();
+        
+        System.out.println("END OF INTERSECTION TEST ONE");
+        System.out.println("----------------------------");
         
     }
 
