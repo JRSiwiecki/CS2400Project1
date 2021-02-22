@@ -228,15 +228,32 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> difference(BagInterface<T> bag1) 
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String toString()
-    {
+    	// Bag that will contain the difference of bag1 from bag2.
+    	BagInterface<T> differenceBag = new LinkedBag<>();
         
-        return "";
+        // The reference bag this method was called on to an array.
+    	T[] referenceBag = this.toArray();
+        
+        // Adds the entries of the reference bag to the difference bag.
+    	for (T entry: referenceBag)
+        {
+        	differenceBag.add(entry);
+        }
+        
+        // Bag from the parameter to an array.
+    	T[] parameterBag = bag1.toArray();
+        
+        // Removes an entry from difference bag 
+    	// if that entry occurs in the parameter bag.
+    	for (T entry: parameterBag)
+        {
+        	if (differenceBag.contains(entry))
+        	{
+        		differenceBag.remove(entry);
+        	}
+        }
+    	
+    	return differenceBag;
     }
 
     /**
