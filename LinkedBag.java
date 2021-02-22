@@ -164,7 +164,19 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> union(BagInterface<T> bag1) 
     {
-        // The bag containing all elements of both bags.
+        // If either bag is empty, return the other bag since
+    	// the only elements, if there are any, are in the other bag.
+    	if (this.isEmpty())
+        {
+        	return bag1;
+        }
+        
+        else if (bag1.isEmpty())
+        {
+        	return this;
+        }
+    	
+    	// The bag containing all elements of both bags.
     	BagInterface<T> unionBag = new LinkedBag<>();
         
         // The first bag.
@@ -191,6 +203,14 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> intersection(BagInterface<T> bag1) 
     {
+    	// If either bag is empty, then there can be no overlap of elements, and so
+    	// the resulting bag of intersection is empty.
+    	if (this.isEmpty() || bag1.isEmpty())
+    	{
+    		BagInterface<T> emptyBag = new LinkedBag<>();
+    		return emptyBag;
+    	}
+    	
     	// Bag to compare to when checking if an entry is in both bags.
     	BagInterface<T> tempBag = new LinkedBag<>();
     	
@@ -228,6 +248,21 @@ public class LinkedBag<T> implements BagInterface<T>
     @Override
     public BagInterface<T> difference(BagInterface<T> bag1) 
     {
+    	// Subtracting a bag with elements from an empty bag 
+    	// just results in an empty bag.
+    	if (this.isEmpty() && !(bag1.isEmpty()))
+    	{
+    		BagInterface<T> emptyBag = new LinkedBag<>();
+    		return emptyBag;
+    	}
+    	
+    	// If the parameter bag is empty and the reference bag is not, 
+    	// then the difference is what is in the parameter bag.
+    	else if (bag1.isEmpty() && !(this.isEmpty()))
+    	{
+    		return this;
+    	}
+    	
     	// Bag that will contain the difference of bag1 from bag2.
     	BagInterface<T> differenceBag = new LinkedBag<>();
         
