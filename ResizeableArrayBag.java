@@ -222,6 +222,18 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     	// Check if bag is corrupt.
     	checkIntegrity();
     	
+    	// If either bag is empty, return the other bag since
+    	// the only elements, if there are any, are in the other bag.
+    	if (this.isEmpty())
+        {
+        	return bag1;
+        }
+        
+        else if (bag1.isEmpty())
+        {
+        	return this;
+        }
+    	
     	// Bag containing all elements of bag1 and bag2
     	BagInterface<T> unionBag = new ResizeableArrayBag<>();
     	
@@ -254,6 +266,14 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     {
     	// Check if bag is corrupt.
     	checkIntegrity();
+    	
+    	// If either bag is empty, then there can be no overlap of elements, and so
+    	// the resulting bag of intersection is empty.
+    	if (this.isEmpty() || bag1.isEmpty())
+    	{
+    		BagInterface<T> emptyBag = new ResizeableArrayBag<>();
+    		return emptyBag;
+    	}
     	
     	// Bag to compare to when checking if an entry is in both bags.
     	BagInterface<T> tempBag = new ResizeableArrayBag<>();
@@ -294,6 +314,21 @@ public class ResizeableArrayBag<T> implements BagInterface<T>
     {
     	// Check if bag is corrupt.
     	checkIntegrity();
+    	
+    	// Subtracting a bag with elements from an empty bag 
+    	// just results in an empty bag.
+    	if (this.isEmpty() && !(bag1.isEmpty()))
+    	{
+    		BagInterface<T> emptyBag = new ResizeableArrayBag<>();
+    		return emptyBag;
+    	}
+    	
+    	// If the parameter bag is empty and the reference bag is not, 
+    	// then the difference is what is in the parameter bag.
+    	else if (bag1.isEmpty() && !(this.isEmpty()))
+    	{
+    		return this;
+    	}
     	
     	// Bag that will contain the difference of bag1 from bag2.
     	BagInterface<T> differenceBag = new ResizeableArrayBag<>();
